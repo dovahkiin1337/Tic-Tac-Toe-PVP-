@@ -1,0 +1,324 @@
+import pygame
+
+pygame.init()
+board = pygame.display.set_mode([600, 700])
+pygame.display.set_caption("Tre i rad!")
+white = (255, 255, 255)
+black = (0, 0, 0)
+blue = (0, 0, 255)
+red = (255, 0, 0)
+green = (0, 204, 0)
+orange = (255, 220, 0)
+bright_green = (0, 255, 0)
+bright_red = (255, 70, 70)
+bright_blue = (102, 178, 255)
+font = pygame.font.SysFont(None, 75)
+text = "Player 1's turn!"
+color = blue
+turn_counter = 1
+
+
+def message_to_screen(txt, color):
+    screen_txt = font.render(txt, True, color)
+    board.blit(screen_txt, [(300 - screen_txt.get_rect().width / 2), 0])
+
+
+class button():
+    def __init__(self, x, y, width, height, text, text_color):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.text = text
+        self.text_color = text_color
+
+    def draw(self, board, size, button_color):
+        self.size = size
+        self.button_color = button_color
+        pygame.draw.rect(board, button_color, (self.x, self.y, self.width, self.height), 0)
+
+        if self.text != "":
+            font = pygame.font.SysFont(None, size)
+            text = font.render(self.text, True, self.text_color)
+            board.blit(text, (
+                self.x + (self.width / 2 - text.get_width() / 2), self.y + (self.height / 2 - text.get_height() / 2)))
+
+    def hover(self, button):
+        if (199 + button.x > mouse_pos[0] > button.x) and (
+                button.y < mouse_pos[1] < button.y + 199) and button.text_color != red and button.text_color != blue:
+            if turn_counter % 2 != 0:
+                button.text = "X"
+                button.text_color = bright_blue
+            else:
+                button.text = "O"
+                button.text_color = bright_red
+
+    def click(self, button):
+        global text
+        global color
+        global turn_counter
+        clicked = pygame.mouse.get_pressed()[0]
+        if clicked:
+            if (199 + button.x > mouse_pos[0] > button.x) and (
+                    button.y < mouse_pos[
+                1] < button.y + 199) and button.text_color != red and button.text_color != blue:
+                turn_counter += 1
+                if turn_counter % 2 != 0:
+                    button.text_color = red
+                    button.text = "O"
+                    color = blue
+                    text = "Player 1's turn!"
+                else:
+                    color = red
+                    text = "Player 2's turn!"
+                    button.text_color = blue
+                    button.text = "X"
+
+
+def draw_buttons():
+    button1.draw(board, 200, black)
+    button2.draw(board, 200, black)
+    button3.draw(board, 200, black)
+    button4.draw(board, 200, black)
+    button5.draw(board, 200, black)
+    button6.draw(board, 200, black)
+    button7.draw(board, 200, black)
+    button8.draw(board, 200, black)
+    button9.draw(board, 200, black)
+
+
+def click_buttons():
+    button1.click(button1)
+    button2.click(button2)
+    button3.click(button3)
+    button4.click(button4)
+    button5.click(button5)
+    button6.click(button6)
+    button7.click(button7)
+    button8.click(button8)
+    button9.click(button9)
+
+
+def hovering_buttons():
+    button1.hover(button1)
+    button2.hover(button2)
+    button3.hover(button3)
+    button4.hover(button4)
+    button5.hover(button5)
+    button6.hover(button6)
+    button7.hover(button7)
+    button8.hover(button8)
+    button9.hover(button9)
+
+
+def draw_lines():
+    pygame.draw.line(board, white, (0, 300), (600, 300))
+    pygame.draw.line(board, white, (0, 500), (600, 500))
+    pygame.draw.line(board, white, (200, 100), (200, 700))
+    pygame.draw.line(board, white, (400, 100), (400, 700))
+    pygame.draw.line(board, white, (0, 100), (600, 100))
+
+
+button1 = button(0, 101, 199, 198, None, black)
+button2 = button(201, 101, 199, 199, None, black)
+button3 = button(401, 101, 199, 199, None, black)
+button4 = button(0, 301, 199, 199, None, black)
+button5 = button(201, 301, 199, 199, None, black)
+button6 = button(401, 301, 199, 199, None, black)
+button7 = button(0, 501, 199, 199, None, black)
+button8 = button(201, 501, 199, 199, None, black)
+button9 = button(401, 501, 199, 199, None, black)
+# main loop
+game = 0
+run = True
+while run:
+    if turn_counter % 2 != 0:
+        color = blue
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            run = False
+    if button1.text_color == bright_red or button1.text_color == bright_blue:
+        button1.text_color = black
+    if button2.text_color == bright_red or button2.text_color == bright_blue:
+        button2.text_color = black
+    if button3.text_color == bright_red or button3.text_color == bright_blue:
+        button3.text_color = black
+    if button4.text_color == bright_red or button4.text_color == bright_blue:
+        button4.text_color = black
+    if button5.text_color == bright_red or button5.text_color == bright_blue:
+        button5.text_color = black
+    if button6.text_color == bright_red or button6.text_color == bright_blue:
+        button6.text_color = black
+    if button7.text_color == bright_red or button7.text_color == bright_blue:
+        button7.text_color = black
+    if button8.text_color == bright_red or button8.text_color == bright_blue:
+        button8.text_color = black
+    if button9.text_color == bright_red or button9.text_color == bright_blue:
+        button9.text_color = black
+
+    if game != 1:
+        mouse_pos = pygame.mouse.get_pos()
+    hovering_buttons()
+    button1 = button(0, 101, 199, 198, button1.text, button1.text_color)
+    button2 = button(201, 101, 199, 199, button2.text, button2.text_color)
+    button3 = button(401, 101, 199, 199, button3.text, button3.text_color)
+    button4 = button(0, 301, 199, 199, button4.text, button4.text_color)
+    button5 = button(201, 301, 199, 199, button5.text, button5.text_color)
+    button6 = button(401, 301, 199, 199, button6.text, button6.text_color)
+    button7 = button(0, 501, 199, 199, button7.text, button7.text_color)
+    button8 = button(201, 501, 199, 199, button8.text, button8.text_color)
+    button9 = button(401, 501, 199, 199, button9.text, button9.text_color)
+
+    board.fill((0, 0, 0))
+    pygame.time.delay(1)
+
+    click_buttons()
+
+    draw_lines()
+    draw_buttons()
+
+    # första horisontella raden
+    if button1.text == button2.text and button1.text == button3.text and button2.text == button3.text:
+        if button1.text_color == blue and button2.text_color == blue and button3.text_color == blue:
+
+            if button1.text == "X":
+                text = "Player 1 wins!"
+                color = blue
+                pygame.draw.line(board, blue, (0, 200), (600, 200))
+                game = 1
+        elif button1.text_color == red and button2.text_color == red and button3.text_color == red:
+            text = "Player 2 wins!"
+            color = red
+            pygame.draw.line(board, red, (0, 200), (600, 200))
+            game = 1
+
+    # andra horisontella raden
+    if button4.text == button5.text and button4.text == button6.text and button4.text == button6.text:
+        if button4.text_color == blue and button5.text_color == blue and button6.text_color == blue:
+            if button4.text == "X":
+                text = "Player 1 wins!"
+                color = blue
+                pygame.draw.line(board, blue, (0, 400), (600, 400))
+                game = 1
+        elif button4.text_color == red and button5.text_color == red and button6.text_color == red:
+            text = "Player 2 wins!"
+            color = red
+            pygame.draw.line(board, red, (0, 400), (600, 400))
+            game = 1
+
+    # tredje horisontella raden
+    if button7.text == button8.text and button8.text == button9.text:
+        if button7.text_color == blue and button8.text_color == blue and button9.text_color == blue:
+            if button7.text == "X":
+                text = "Player 1 wins!"
+                color = blue
+                pygame.draw.line(board, blue, (0, 600), (600, 600))
+                game = 1
+        elif button7.text_color == red and button8.text_color == red and button9.text_color == red:
+            text = "Player 2 wins!"
+            color = red
+            pygame.draw.line(board, red, (0, 600), (600, 600))
+            game = 1
+
+    # första vertikala raden
+    if button1.text == button4.text and button1.text == button7.text and button4.text == button7.text:
+        if button1.text_color == blue and button4.text_color == blue and button7.text_color == blue:
+            if button1.text == "X":
+                text = "Player 1 wins!"
+                color = blue
+                pygame.draw.line(board, blue, (100, 100), (100, 700))
+                game = 1
+        elif button1.text_color == red and button4.text_color == red and button7.text_color == red:
+            text = "Player 2 wins!"
+            color = red
+            pygame.draw.line(board, red, (100, 100), (100, 700))
+            game = 1
+
+    # andra vertikala raden
+    if button2.text == button5.text and button2.text == button8.text and button5.text == button8.text:
+        if button2.text_color == blue and button5.text_color == blue and button8.text_color == blue:
+            if button2.text == "X":
+                text = "Player 1 wins!"
+                color = blue
+                pygame.draw.line(board, blue, (300, 100), (300, 700))
+                game = 1
+        elif button2.text_color == red and button5.text_color == red and button8.text_color == red:
+            text = "Player 2 wins!"
+            color = red
+            pygame.draw.line(board, red, (300, 100), (300, 700))
+            game = 1
+
+    # tredje vertikala raden
+    if button3.text == button6.text and button3.text == button9.text and button6.text == button9.text:
+        if button3.text_color == blue and button6.text_color == blue and button9.text_color == blue:
+            if button3.text == "X":
+                text = "Player 1 wins!"
+                color = blue
+                pygame.draw.line(board, blue, (500, 100), (500, 700))
+                game = 1
+        elif button3.text_color == red and button6.text_color == red and button9.text_color == red:
+            text = "Player 2 wins!"
+            color = red
+            pygame.draw.line(board, red, (500, 100), (500, 700))
+            game = 1
+
+    # diagonal vänster -> höger, upp -> ned
+    if button1.text == button5.text and button1.text == button9.text and button5.text == button9.text:
+        if button1.text_color == blue and button5.text_color == blue and button9.text_color == blue:
+            if button1.text == "X":
+                text = "Player 1 wins!"
+                color = blue
+                pygame.draw.line(board, blue, (0, 100), (600, 700))
+                game = 1
+        elif button1.text_color == red and button5.text_color == red and button9.text_color == red:
+            text = "Player 2 wins!"
+            color = red
+            pygame.draw.line(board, red, (0, 100), (600, 700))
+            game = 1
+
+    # diagonal vänster -> höger, ned -> upp
+    if button7.text == button5.text and button7.text == button3.text and button5.text == button3.text:
+        if button7.text_color == blue and button5.text_color == blue and button3.text_color == blue:
+            if button7.text == "X":
+                text = "Player 1 wins!"
+                color = blue
+                pygame.draw.line(board, blue, (0, 700), (600, 100))
+                game = 1
+        elif button7.text_color == red and button5.text_color == red and button3.text_color == red:
+            text = "Player 2 wins!"
+            color = red
+            pygame.draw.line(board, red, (0, 700), (600, 100))
+            game = 1
+    if game == 1:
+        restart_button = button(50, 45, 100, 50, "Restart", white)
+        restart_button.draw(board, 40, green)
+        quit_button = button(450, 45, 100, 50, "Quit", white)
+        quit_button.draw(board, 40, red)
+        mouse = pygame.mouse.get_pos()
+        click = pygame.mouse.get_pressed()[0]
+        if 150 > mouse[0] > 50 and 95 > mouse[1] > 45:
+            restart_button.draw(board, 40, bright_green)
+            if click:
+                game = 0
+                button1 = button(0, 101, 199, 198, None, black)
+                button2 = button(201, 101, 199, 199, None, black)
+                button3 = button(401, 101, 199, 199, None, black)
+                button4 = button(0, 301, 199, 199, None, black)
+                button5 = button(201, 301, 199, 199, None, black)
+                button6 = button(401, 301, 199, 199, None, black)
+                button7 = button(0, 501, 199, 199, None, black)
+                button8 = button(201, 501, 199, 199, None, black)
+                button9 = button(401, 501, 199, 199, None, black)
+                text = "Player 1's turn!"
+                turn_counter = 1
+        if 550 > mouse[0] > 450 and 95 > mouse[1] > 45:
+            quit_button.draw(board, 40, bright_red)
+            if click:
+                run = False
+    if game == 0 and turn_counter == 10:
+        game = 1
+        text = "Draw!"
+        color = orange
+
+    message_to_screen(text, color)
+    pygame.display.update()
